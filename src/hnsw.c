@@ -243,7 +243,7 @@ Datum       hnsw_handler(PG_FUNCTION_ARGS __attribute__((unused)))
     amroutine->amclusterable = false;
     amroutine->ampredlocks = false;
     amroutine->amcanparallel = false;
-    amroutine->amcaninclude = false;
+    amroutine->amcaninclude = true;
 #if PG_VERSION_NUM >= 130000
     amroutine->amusemaintenanceworkmem = false; /* not used during VACUUM */
     amroutine->amparallelvacuumoptions = VACUUM_OPTION_PARALLEL_BULKDEL;
@@ -255,7 +255,7 @@ Datum       hnsw_handler(PG_FUNCTION_ARGS __attribute__((unused)))
     amroutine->aminsert = ldb_aminsert;
     amroutine->ambulkdelete = ldb_ambulkdelete;
     amroutine->amvacuumcleanup = ldb_amvacuumcleanup;
-    amroutine->amcanreturn = NULL;
+    amroutine->amcanreturn = lbd_amcanreturn;
     amroutine->amcostestimate = hnswcostestimate;
     amroutine->amoptions = ldb_amoptions;
     amroutine->amproperty = NULL;
