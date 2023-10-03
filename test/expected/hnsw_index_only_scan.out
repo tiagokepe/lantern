@@ -1,0 +1,23 @@
+CREATE TABLE small_world (id integer, vector real[3]);
+INSERT INTO small_world (id, vector) VALUES (0, '{0,0,0}'), (1, '{0,0,1}');
+CREATE INDEX ON small_world USING hnsw (vector);
+INFO:  done init usearch index
+INFO:  inserted 2 elements
+INFO:  done saving 2 vectors
+SET enable_seqscan = false;
+-- Testing Only Scan as Usual
+EXPLAIN SELECT id, vector FROM small_world ORDER BY vector <-> ARRAY[0,0,0];
+                                        QUERY PLAN                                         
+-------------------------------------------------------------------------------------------
+ Index Scan using small_world_vector_idx on small_world  (cost=0.00..4.02 rows=2 width=40)
+   Order By: (vector <-> '{0,0,0}'::real[])
+(2 rows)
+
+-- Case1: Testing only-index scan with only key-column index
+EXPLAIN SELECT vector FROM small_world ORDER BY vector <-> ARRAY[0,0,0];
+                                           QUERY PLAN                                           
+------------------------------------------------------------------------------------------------
+ Index Only Scan using small_world_vector_idx on small_world  (cost=0.00..4.02 rows=2 width=36)
+   Order By: (vector <-> '{0,0,0}'::real[])
+(2 rows)
+
