@@ -35,4 +35,5 @@ IndexScanDesc ldb_ambeginscan(Relation index, int nkeys, int norderbys);
 void          ldb_amrescan(IndexScanDesc scan, ScanKey keys, int nkeys, ScanKey orderbys, int norderbys);
 bool          ldb_amgettuple(IndexScanDesc scan, ScanDirection dir);
 void          ldb_amendscan(IndexScanDesc scan);
+extern bool          lbd_amcanreturn(Relation index, int attno);
 #endif  // LDB_HNSW_SCAN_H

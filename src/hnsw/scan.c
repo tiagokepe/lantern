@@ -278,3 +278,9 @@ bool ldb_amgettuple(IndexScanDesc scan, ScanDirection dir)
 
     return false;
 }
+
+bool lbd_amcanreturn(Relation index, int attno)
+{
+    // For now, it only supports index-only scan for queries that refers only key-index columns
+    return (attno == 1);
+}
