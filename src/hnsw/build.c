@@ -264,7 +264,7 @@ int GetHnswIndexDimensions(Relation index, IndexInfo *indexInfo)
             ldb_HnswOptions *opts;
             int              attrNum;
 
-            assert(index->rd_index->indnatts == 1);
+            assert(index->rd_index->indnkeyatts == 1);
             attrNum = index->rd_index->indkey.values[ 0 ];
 #if PG_VERSION_NUM < 120000
             heap = heap_open(index->rd_index->indrelid, AccessShareLock);
